@@ -32,6 +32,11 @@ LOCAL_C_INCLUDES += \
 	$(call include-path-for, audio-effects) \
 	$(LOCAL_PATH)/$(AUDIO_PLATFORM)
 
+ifneq ($(filter mako hammerhead, $(TARGET_DEVICE)),)
+# Nexus devices need T-Mobile specific mic
+CFLAGS += -DNEED_TMUS_SPECIFIC_MIC=1
+endif
+
 LOCAL_MODULE := audio.primary.$(AUDIO_PLATFORM)
 
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw

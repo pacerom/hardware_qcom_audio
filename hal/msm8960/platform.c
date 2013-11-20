@@ -587,9 +587,11 @@ snd_device_t platform_get_output_snd_device(void *platform, audio_devices_t devi
         } else if (devices & AUDIO_DEVICE_OUT_SPEAKER) {
             snd_device = SND_DEVICE_OUT_VOICE_SPEAKER;
         } else if (devices & AUDIO_DEVICE_OUT_EARPIECE) {
+#ifdef NEED_TMUS_SPECIFIC_MIC
             if (is_operator_tmus())
                 snd_device = SND_DEVICE_OUT_VOICE_HANDSET_TMUS;
             else
+#endif
                 snd_device = SND_DEVICE_OUT_HANDSET;
         }
         if (snd_device != SND_DEVICE_NONE) {
@@ -690,9 +692,11 @@ snd_device_t platform_get_input_snd_device(void *platform, audio_devices_t out_d
                 snd_device = SND_DEVICE_IN_HANDSET_MIC;
             } else {
                 if (my_data->dualmic_config == DUALMIC_CONFIG_ENDFIRE) {
+#ifdef NEED_TMUS_SPECIFIC_MIC
                     if (is_operator_tmus())
                         snd_device = SND_DEVICE_IN_VOICE_DMIC_EF_TMUS;
                     else
+#endif
                         snd_device = SND_DEVICE_IN_VOICE_DMIC_EF;
                 } else if(my_data->dualmic_config == DUALMIC_CONFIG_BROADSIDE)
                     snd_device = SND_DEVICE_IN_VOICE_DMIC_BS;
